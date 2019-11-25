@@ -9,6 +9,15 @@
 import Foundation
 import UIKit
 
-class AnswerButton : UIButton{
-    
+protocol AnswerButtonDelegate : class {
+    func handleTap(tappedView : UIButton)
 }
+
+class AnswerButton: UIButton {
+    weak var viewTappedDelegate : AnswerButtonDelegate?
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        viewTappedDelegate?.handleTap(tappedView: self)
+    }
+}
+

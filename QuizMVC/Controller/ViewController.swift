@@ -11,7 +11,6 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet var answerButton: [AnswerButton]!
-    
     @IBOutlet weak var questionLabel: UILabel!
     
     let questionPickerImplementation : QuestionPicker = QuestionPickerImpl()
@@ -20,6 +19,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        answerButton.forEach {$0.viewTappedDelegate = self}
         prepareTheQuestion()
     }
     
@@ -36,14 +36,6 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func answerPicked(_ sender: UIButton) {
-         
-        if questionPickerImplementation.pickedQuestion?.correctAnswer.rawValue == sender.tag{
-            handleTheAnswer(goodOrBad: "Good answer!", sender: sender)
-        }else{
-            handleTheAnswer(goodOrBad: "Bad answer :(", sender: sender)
-        }
-    }
     
     func handleTheAnswer(goodOrBad:String,sender: UIButton){
         var backgroundColorAns : UIColor = .red
@@ -71,4 +63,15 @@ class ViewController: UIViewController {
     }
     
 }
+extension ViewController : AnswerButtonDelegate
+{
+    func handleTap(tappedView: UIButton) {
+        if questionPickerImplementation.pickedQuestion?.correctAnswer.rawValue == tappedView.tag{
+            handleTheAnswer(goodOrBad: "Good answer!", sender: tappedView)
+        }else{
+            handleTheAnswer(goodOrBad: "Bad answer :(", sender: tappedView)
+        }
+    }
+}
+
 
