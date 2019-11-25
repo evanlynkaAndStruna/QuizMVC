@@ -10,7 +10,6 @@ import Foundation
 
 protocol QuestionPicker{
     var pickedQuestion : Question?{get}
-    var gameStarted : Bool{get}
     var amountOfQuestionsInBase : Int {get}
     func pickAQuestion()
 }
@@ -30,10 +29,10 @@ struct Question{
     var correctAnswer : AnswerOption
 }
 class QuestionPickerImpl : QuestionPicker{
-    var pickedQuestion: Question?
-    var gameStarted: Bool = false
-    var questionsArray = [Question(question: "Ile mam lat?", answerA: "5", answerB: "10", answerC: "20", answerD: "22", correctAnswer: .D), Question(question: "Ile mam nóg?", answerA: "2", answerB: "4", answerC: "6", answerD: "8", correctAnswer: .A),Question(question: "Ile mam dzieci?", answerA: "1", answerB: "0", answerC: "3", answerD: "2", correctAnswer: .B),Question(question: "Ile mam samochodow?", answerA: "9", answerB: "8", answerC: "0", answerD: "1", correctAnswer: .C)]
-    var amountOfQuestionsInBase : Int = 0
+    private(set) var pickedQuestion: Question?
+
+    private(set) var questionsArray = [Question(question: "Ile mam lat?", answerA: "5", answerB: "10", answerC: "20", answerD: "22", correctAnswer: .D), Question(question: "Ile mam nóg?", answerA: "2", answerB: "4", answerC: "6", answerD: "8", correctAnswer: .A),Question(question: "Ile mam dzieci?", answerA: "1", answerB: "0", answerC: "3", answerD: "2", correctAnswer: .B),Question(question: "Ile mam samochodow?", answerA: "9", answerB: "8", answerC: "0", answerD: "1", correctAnswer: .C)]
+    private(set) var amountOfQuestionsInBase : Int = 0
     
     func pickAQuestion() {
         let index = getRandomNumber(from: 0, to: questionsArray.count - 1)
@@ -43,7 +42,7 @@ class QuestionPickerImpl : QuestionPicker{
         amountOfQuestionsInBase = questionsArray.count
     }
     
-    func getRandomNumber(from: Int, to: Int) -> Int{
+   private func getRandomNumber(from: Int, to: Int) -> Int{
         let number : Int
         if to > 0{
             number = Int.random(in: from ..< to)
